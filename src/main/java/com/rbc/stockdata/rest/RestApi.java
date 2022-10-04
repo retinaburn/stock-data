@@ -12,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.rbc.stockdata.constant.Constants.HEADER_CLIENTID;
+
 @Slf4j
 @RestController
 @RequestMapping("api/stock-data")
@@ -27,10 +29,12 @@ public class RestApi {
     }
 
     @PostMapping("bulk-insert")
-    void bulkInsert(@RequestParam("file") MultipartFile file) {
-        log.debug("bulkInsert file: {}, size: {}", file.getName(), file.getSize());
+    void bulkInsert(
+            @RequestHeader(name = HEADER_CLIENTID) String clientId,
+            @RequestParam("file") MultipartFile file) {
+        log.debug("bulkInsert client: {}, file: {}, size: {}", clientId, file.getName(), file.getSize());
 
-        insertService.insertFile(file);
+        insertService.insertFile(clientId, file);
 
         for (StockData item : repo.findAll()) {
             log.debug("Item: {}", item);
@@ -38,9 +42,11 @@ public class RestApi {
     }
 
     @GetMapping("{id}")
-    List<StockData> getStock(@PathVariable String id) {
-        log.debug("getStock {}", id);
-        List<StockData> stocks = repo.findByStock(id);
+    List<StockData> getStock(
+            @RequestHeader(name = HEADER_CLIENTID) String clientId,
+            @PathVariable String id) {
+        log.debug("client: {}, getStock {}", clientId, id);
+        List<StockData> stocks = repo.findByClientIdAndStock(clientId, id);
 
         if (stocks.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find stock");
@@ -48,8 +54,12 @@ public class RestApi {
     }
 
     @PostMapping
-    StockData uploadStock(@RequestBody StockData data){
-        log.debug("Body: {}", data);
+    StockData uploadStock(
+            @RequestHeader(name = HEADER_CLIENTID) String clientId,
+            @RequestBody StockData data){
+        log.trace("original data: {}", data);
+        data.setClientId(clientId);
+        log.debug("client: {}, body: {}", clientId, data);
         return repo.save(data);
     }
 

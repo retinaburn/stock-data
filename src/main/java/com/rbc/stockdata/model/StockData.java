@@ -10,11 +10,12 @@ import javax.persistence.Id;
 @Data
 @Entity
 public class StockData {
-    //default constructor for Hibernate
-    public StockData(){
 
+    public StockData(){
+        //default constructor for Hibernate
     }
-    public StockData(String[] fields){
+    public StockData(String clientId, String[] fields){
+        this.clientId = clientId;
         quarter = Integer.parseInt(fields[0]);
         stock = fields[1];
         date = fields[2];
@@ -36,6 +37,7 @@ public class StockData {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    private String clientId;
     private int quarter;
     private String stock;
     private String date;

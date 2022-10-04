@@ -2,13 +2,14 @@ package com.rbc.stockdata.service;
 
 import com.rbc.stockdata.model.StockData;
 import com.rbc.stockdata.repository.StockRespository;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import static com.rbc.stockdata.constant.Constants.FIELD_DELIMITER;
 
@@ -23,7 +24,7 @@ public class BulkInsert {
         this.repo = repo;
     }
 
-    public void insertFile(MultipartFile file){
+    public void insertFile(String clientId, MultipartFile file){
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))){
 
             //read header
@@ -35,7 +36,7 @@ public class BulkInsert {
                 String line = reader.readLine();
                 log.debug("Read: {}", line);
                 String[] fields = line.split(FIELD_DELIMITER);
-                StockData element = new StockData(fields);
+                StockData element = new StockData(clientId, fields);
                 StockData saved = repo.save(element);
                 log.debug("Saved: {}", saved);
             }
