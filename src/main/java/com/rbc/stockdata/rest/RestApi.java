@@ -47,4 +47,11 @@ public class RestApi {
         return stocks;
     }
 
+    @PostMapping
+    StockData uploadStock(@RequestBody StockData data){
+        log.debug("Body: {}", data);
+        return repo.save(data);
+    }
+
+
 }
