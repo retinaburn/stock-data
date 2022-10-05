@@ -7,6 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import java.io.IOException;
+
+import static com.rbc.stockdata.constant.Constants.EXPECTED_NUM_FIELDS;
+
 @Data
 @Entity
 public class StockData {
@@ -14,7 +18,11 @@ public class StockData {
     public StockData(){
         //default constructor for Hibernate
     }
-    public StockData(String clientId, String[] fields){
+    public StockData(String clientId, String[] fields) throws IOException {
+        if (fields.length != EXPECTED_NUM_FIELDS)
+            throw new IOException("Unexpected number of fields: " +
+                    fields.length +
+                    " expected: " + EXPECTED_NUM_FIELDS);
         this.clientId = clientId;
         quarter = Integer.parseInt(fields[0]);
         stock = fields[1];
