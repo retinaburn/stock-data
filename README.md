@@ -28,13 +28,19 @@ DowJonesIndex
 
     - The solution does not need to be perfect. Please complete what you deem necessary and prioritize accordingly. Most importantly, you should be prepared to discuss how you would potentially enhance the solution given more time, and decisions / tradeoffs that you made.
 
-## Final Thoughts
+## Implementation
 
-    Some aspects of this challenge have been left intentionally vague.  Have fun! Build a solution you would be proud to show off :)
-
+1. Spring Boot MVC Application with JPA In-Memory DataStore
+2. Multi-User via X-Client_Id supplied header by utilizing a field in the table to mark the clientId
+3. REST-API
+   1. POST /api/stock-data/bulk-insert with Multipart file attached for bulk upload
+   2. POST /api/stock-data with JSON request body for single upload
+   3. GET /api/stock-data/{id} to retrieve JSON list of elements that match the stock name "id"
+4. 
 
 ## Usage
 
+    $ ./gradlew :bootRun
     - curl -F "file=@dow_jones_index.data" -H "X-Client_Id: abc123" http://127.0.0.1:8080/api/stock-data/bulk-insert 
     - curl -H "X-Client_Id: abc123" http://127.0.0.1:8080/api/stock-data/AA
     - curl -H "Content-Type: application/json" -H "X-Client_Id: abc123" -X POST -d @dow_jones_missing.json http://127.0.0.1:8080/api/stock-data/
