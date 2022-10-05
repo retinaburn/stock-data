@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface StockRespository extends CrudRepository<StockData, Long> {
+public interface StockRepository extends CrudRepository<StockData, Long> {
     List<StockData> findByClientIdAndStock(String clientId, String stockName);
 
 }

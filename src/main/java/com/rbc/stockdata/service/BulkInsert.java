@@ -1,7 +1,7 @@
 package com.rbc.stockdata.service;
 
 import com.rbc.stockdata.model.StockData;
-import com.rbc.stockdata.repository.StockRespository;
+import com.rbc.stockdata.repository.StockRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import static com.rbc.stockdata.constant.Constants.FIELD_DELIMITER;
 @Service
 public class BulkInsert {
 
-    private final StockRespository repo;
+    private final StockRepository repo;
 
     @Autowired
-    public BulkInsert(StockRespository repo){
+    public BulkInsert(StockRepository repo){
         this.repo = repo;
     }
 

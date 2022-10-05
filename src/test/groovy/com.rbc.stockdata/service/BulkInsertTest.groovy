@@ -1,9 +1,8 @@
 package com.rbc.stockdata.service
 
 import com.rbc.stockdata.model.StockData
-import com.rbc.stockdata.repository.StockRespository
+import com.rbc.stockdata.repository.StockRepository
 import org.springframework.mock.web.MockMultipartFile
-import org.springframework.web.multipart.MultipartFile
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -11,10 +10,10 @@ class BulkInsertTest extends Specification{
     @Shared
     BulkInsert insert
     @Shared
-    StockRespository repo
+    StockRepository repo
 
     def setup(){
-        repo = Mock(StockRespository) {
+        repo = Mock(StockRepository) {
             save(_) >> { return new StockData() }
         }
         insert = new BulkInsert(repo)

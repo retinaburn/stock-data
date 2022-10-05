@@ -1,7 +1,7 @@
 package com.rbc.stockdata.rest;
 
 import com.rbc.stockdata.model.StockData;
-import com.rbc.stockdata.repository.StockRespository;
+import com.rbc.stockdata.repository.StockRepository;
 import com.rbc.stockdata.service.BulkInsert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,11 @@ import static com.rbc.stockdata.constant.Constants.HEADER_CLIENTID;
 @RestController
 @RequestMapping("api/stock-data")
 public class RestApi {
-    private final StockRespository repo;
+    private final StockRepository repo;
     private final BulkInsert insertService;
 
     @Autowired
-    public RestApi(StockRespository repo,
+    public RestApi(StockRepository repo,
                    BulkInsert insertService) {
         this.repo = repo;
         this.insertService = insertService;
